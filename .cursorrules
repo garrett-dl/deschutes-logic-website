@@ -1,0 +1,450 @@
+# Deschutes Logic Website - Cursor Rules
+
+You are an expert Next.js developer building the website for Deschutes Logic, a web development and automation consultancy based in Bend, Oregon.
+
+## Project Overview
+
+**Company:** Deschutes Logic
+**Services:** Web development, workflow automation, web scraping solutions, custom integrations
+**Target Audience:** Small to medium businesses needing automation and data solutions
+**Tone:** Professional yet approachable, technically competent, trustworthy, Pacific Northwest inspired
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js 16+ with App Router
+- **Language:** TypeScript (strict mode)
+- **Styling:** Tailwind CSS v4 with custom theme
+- **Base Components:** shadcn/ui (customized to brand)
+- **Marketing Components:** Tailark components (customized to brand)
+- **Animations:** React Bits for motion and micro-interactions
+- **Icons:** AnimateIcons (preferred), Lucide (fallback)
+- **Fonts:** Inter for body, consideration for display font
+
+---
+
+## Brand Color Palette
+
+The Deschutes Logic logo features a flowing gradient from deep blue through teal to vibrant green, evoking the Deschutes River and Pacific Northwest nature.
+
+### Primary Colors (extracted from logo)
+
+```
+Deep Blue:     #143c78  - Primary brand blue (logo top)
+Ocean Blue:    #14508c  - Secondary blue
+Teal:          #28788c  - Transition/accent color
+Forest Green:  #3c8c50  - Secondary green
+Leaf Green:    #64a03c  - Primary brand green (logo bottom)
+Bright Green:  #78b43c  - Highlight green
+```
+
+### Semantic Color Mapping for Tailwind
+
+```typescript
+// Use these semantic names in code:
+primary:     Deep Blue (#143c78)      // Primary actions, headers, links
+secondary:   Leaf Green (#64a03c)     // Secondary actions, success states
+accent:      Teal (#28788c)           // Highlights, hover states, accents
+```
+
+### Neutral Palette
+
+```
+background:  #ffffff   // Primary background
+surface:     #f8fafc   // Cards, elevated surfaces
+muted:       #f1f5f9   // Subtle backgrounds, disabled states
+border:      #e2e8f0   // Borders, dividers
+text:        #0f172a   // Primary text (near-black)
+text-muted:  #64748b   // Secondary text, captions
+```
+
+### Functional Colors
+
+```
+success:     #64a03c   // Reuse leaf green
+warning:     #f59e0b   // Amber
+error:       #ef4444   // Red
+info:        #28788c   // Reuse teal
+```
+
+---
+
+## Tailwind Configuration
+
+Always extend the default theme with brand colors. Configure in `tailwind.config.ts`.
+
+---
+
+## Component Architecture
+
+### Directory Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+├── components/
+│   ├── ui/                 # shadcn/ui base components (customized)
+│   ├── marketing/          # Tailark-based marketing sections
+│   ├── animations/         # React Bits animation wrappers
+│   └── icons/              # AnimateIcons + Lucide icon components
+├── lib/
+│   ├── utils.ts            # Utility functions (cn, etc.)
+│   └── constants.ts        # Brand constants, content
+├── styles/
+│   └── globals.css         # Global styles, CSS variables
+└── types/                  # TypeScript type definitions
+```
+
+### Component Hierarchy
+
+1. **Base Components (shadcn/ui)**
+   - Buttons, inputs, cards, dialogs, etc.
+   - Customize with brand colors via CSS variables
+   - Location: `src/components/ui/`
+
+2. **Marketing Components (Tailark)**
+   - Hero sections, feature grids, testimonials, CTAs, pricing, FAQs
+   - Adapt Tailark templates to use brand colors and shadcn primitives
+   - Location: `src/components/marketing/`
+
+3. **Animated Components (React Bits)**
+   - Wrap components with React Bits animations
+   - Use for scroll reveals, hover effects, page transitions
+   - Location: `src/components/animations/`
+
+---
+
+## Component Guidelines
+
+### shadcn/ui Customization Rules
+
+When installing shadcn components, always customize them:
+
+1. Modify component variants to include brand-specific styles
+2. Ensure all interactive elements use brand colors for focus states
+
+### Tailark Marketing Component Rules
+
+When adapting Tailark components:
+
+1. Replace Tailark's default colors with brand semantic colors
+2. Integrate shadcn/ui buttons and form elements
+3. Add React Bits animations for scroll-triggered reveals
+4. Maintain responsive design patterns
+
+```tsx
+// Example: Adapting a Tailark hero section
+import { Button } from "@/components/ui/button"
+import { FadeIn } from "@/components/animations/fade-in"
+
+export function HeroSection() {
+  return (
+    <section className="bg-background py-24">
+      <FadeIn>
+        <h1 className="text-primary text-5xl font-bold">
+          Automate Your Business
+        </h1>
+        <p className="text-muted-foreground mt-4">
+          Web scraping, workflow automation, and custom integrations.
+        </p>
+        <Button className="mt-8">Get Started</Button>
+      </FadeIn>
+    </section>
+  )
+}
+```
+
+### React Bits Animation Rules
+
+Use React Bits for:
+- Scroll-triggered fade-ins and slide-ins
+- Staggered list animations
+- Hover micro-interactions
+- Page transitions
+
+Animation principles:
+- Keep animations subtle and professional (not playful)
+- Duration: 200-400ms for micro-interactions, 400-800ms for reveals
+- Easing: Use ease-out for entrances, ease-in-out for transitions
+- Respect `prefers-reduced-motion`
+
+```tsx
+// Create reusable animation wrappers
+// src/components/animations/fade-in.tsx
+"use client"
+
+import { motion } from "framer-motion"
+
+interface FadeInProps {
+  children: React.ReactNode
+  delay?: number
+  direction?: "up" | "down" | "left" | "right"
+}
+
+export function FadeIn({ children, delay = 0, direction = "up" }: FadeInProps) {
+  const directionOffset = {
+    up: { y: 24 },
+    down: { y: -24 },
+    left: { x: 24 },
+    right: { x: -24 },
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, ...directionOffset[direction] }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+```
+
+### Icon Usage Rules
+
+**Prefer AnimateIcons for:**
+- Navigation icons
+- Feature icons
+- Interactive elements that benefit from animation
+
+**Use Lucide for:**
+- Static icons in text
+- Small UI indicators
+- When AnimateIcons doesn't have the needed icon
+
+```tsx
+// Icon import pattern
+import { ArrowRight } from "lucide-react"
+import { AnimatedCheckIcon } from "@/components/icons/animated-check"
+
+// Usage
+<Button>
+  Continue <ArrowRight className="ml-2 h-4 w-4" />
+</Button>
+
+<FeatureCard icon={<AnimatedCheckIcon />} title="Reliable" />
+```
+
+---
+
+## Code Style Guidelines
+
+### TypeScript Requirements
+
+- Enable strict mode in `tsconfig.json`
+- Define explicit types for all props
+- Use interface for component props, type for unions/utilities
+- No `any` types without explicit justification
+
+```typescript
+interface ButtonProps {
+  variant?: "primary" | "secondary" | "outline"
+  size?: "sm" | "md" | "lg"
+  children: React.ReactNode
+  onClick?: () => void
+}
+```
+
+### Component Patterns
+
+```tsx
+// Preferred component structure
+"use client" // Only if needed
+
+import { cn } from "@/lib/utils"
+
+export interface ComponentProps {
+  className?: string
+  children: React.ReactNode
+}
+
+export function Component({ className, children }: ComponentProps) {
+  return (
+    <div className={cn("base-classes", className)}>
+      {children}
+    </div>
+  )
+}
+```
+
+### Naming Conventions
+
+- **Components:** PascalCase (`HeroSection.tsx`)
+- **Utilities:** camelCase (`formatDate.ts`)
+- **Constants:** SCREAMING_SNAKE_CASE (`MAX_ITEMS`)
+- **CSS classes:** kebab-case via Tailwind
+- **Files:** Match export name (`Button.tsx` exports `Button`)
+
+### Import Order
+
+```tsx
+// 1. React/Next.js
+import { useState } from "react"
+import Link from "next/link"
+
+// 2. External libraries
+import { motion } from "framer-motion"
+
+// 3. Internal components
+import { Button } from "@/components/ui/button"
+
+// 4. Internal utilities
+import { cn } from "@/lib/utils"
+
+// 5. Types
+import type { PageProps } from "@/types"
+```
+
+---
+
+## Content & Copy Guidelines
+
+### Voice & Tone
+
+- **Professional:** We're experts, but not stuffy
+- **Clear:** No jargon without explanation
+- **Confident:** State capabilities directly
+- **Helpful:** Focus on client outcomes, not our process
+
+### Writing Style
+
+- Use active voice
+- Keep sentences concise
+- Lead with benefits, follow with features
+- Include specific outcomes when possible
+
+```
+❌ "Our automation solutions leverage cutting-edge technology..."
+✅ "Automate repetitive tasks and save 10+ hours per week."
+
+❌ "We provide web scraping services."  
+✅ "Extract product data from 1,000+ websites automatically."
+```
+
+### Headlines
+
+- Keep under 10 words
+- Start with action verbs or outcomes
+- Use sentence case (not Title Case)
+
+---
+
+## Accessibility Requirements
+
+- All images must have alt text
+- Interactive elements need visible focus states
+- Color contrast must meet WCAG AA (4.5:1 for text)
+- Support keyboard navigation
+- Include skip links
+- Use semantic HTML elements
+
+```tsx
+// Focus state example
+<button className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+  Click me
+</button>
+```
+
+---
+
+## Performance Guidelines
+
+- Use Next.js Image component for all images
+- Implement lazy loading for below-fold content
+- Keep initial JS bundle under 100KB
+- Use server components by default
+- Add loading states for async operations
+
+---
+
+## File Templates
+
+### New Page Template
+
+```tsx
+// src/app/[page]/page.tsx
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Page Title | Deschutes Logic",
+  description: "Page description for SEO",
+}
+
+export default function PageName() {
+  return (
+    <main>
+      {/* Page content */}
+    </main>
+  )
+}
+```
+
+### New Component Template
+
+```tsx
+// src/components/[category]/[component-name].tsx
+import { cn } from "@/lib/utils"
+
+export interface ComponentNameProps {
+  className?: string
+}
+
+export function ComponentName({ className }: ComponentNameProps) {
+  return (
+    <div className={cn("", className)}>
+      {/* Component content */}
+    </div>
+  )
+}
+```
+
+---
+
+## Quick Reference
+
+### Brand Colors (copy-paste ready)
+
+```
+Primary Blue:    #143c78
+Ocean Blue:      #14508c  
+Teal:            #28788c
+Forest Green:    #3c8c50
+Leaf Green:      #64a03c
+Bright Green:    #78b43c
+```
+
+### Common Tailwind Classes
+
+```
+Primary button:     bg-primary text-primary-foreground hover:bg-primary/90
+Secondary button:   bg-secondary text-secondary-foreground hover:bg-secondary/90
+Outline button:     border border-primary text-primary hover:bg-primary/10
+Card:               bg-card rounded-lg border shadow-sm p-6
+Section padding:    py-16 md:py-24 lg:py-32
+Container:          container mx-auto px-4 md:px-6
+Brand gradient:     bg-brand-gradient bg-clip-text text-transparent
+```
+
+### Component Sources
+
+- **shadcn/ui docs:** https://ui.shadcn.com
+- **Tailark components:** https://tailark.com
+- **React Bits:** https://reactbits.dev
+- **AnimateIcons:** https://animateicons.com
+- **Lucide icons:** https://lucide.dev
+
+---
+
+## Checklist Before Committing
+
+- [ ] TypeScript compiles without errors
+- [ ] Components use semantic color names (not hex values)
+- [ ] Interactive elements have hover/focus states
+- [ ] Images use Next.js Image component
+- [ ] Page has appropriate metadata
+- [ ] Animations respect reduced-motion preference
+- [ ] Component is responsive (mobile-first)
+- [ ] No console errors or warnings
