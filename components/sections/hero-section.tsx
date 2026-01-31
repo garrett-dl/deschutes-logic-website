@@ -4,7 +4,7 @@ import { HeroLandscape } from "@/components/illustrations/hero-landscape";
 
 export function HeroSection() {
   return (
-    <section id="hero" aria-labelledby="hero-heading" className="relative min-h-screen">
+    <section id="hero" aria-labelledby="hero-heading" className="relative h-screen max-h-[1080px]">
       {/* Background Illustration */}
       <div className="absolute inset-0 overflow-hidden">
         <HeroLandscape className="absolute inset-0 w-full h-full object-cover opacity-40 dark:opacity-25" />

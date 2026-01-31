@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Field, FieldContent, FieldDescription, FieldLabel } from "../ui/field";
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -18,10 +19,10 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {/* Name */}
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+      <Field>
+        <FieldLabel htmlFor="name">Name</FieldLabel>
         <Input
           id="name"
           name="name"
@@ -29,33 +30,36 @@ export function ContactForm() {
           placeholder="Your name"
           required
         />
-      </div>
+      </Field>
 
       {/* Email */}
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="you@company.com"
-          required
-        />
-      </div>
+      <Field>
+        <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@company.com"
+            required
+          />
+          <FieldDescription>
+            No spam, and we'll never share your email.
+          </FieldDescription>
+      </Field>
 
       {/* Business Type */}
-      <div className="space-y-2">
-        <Label htmlFor="business-type">Business Type</Label>
+      <Field>
+        <FieldLabel htmlFor="business-type">Business Type</FieldLabel>
         <Input
           id="business-type"
           name="business-type"
           type="text"
           placeholder="e.g., Property Management, HVAC, Law Firm"
         />
-      </div>
+      </Field>
 
       {/* What they're looking for help with */}
-      <div className="space-y-2">
+      <Field>
         <Label htmlFor="help-with">What are you looking for help with?</Label>
         <Textarea
           id="help-with"
@@ -63,7 +67,7 @@ export function ContactForm() {
           placeholder="Tell us about the repetitive tasks or processes that are eating up your time..."
           rows={4}
         />
-      </div>
+      </Field>
 
       {/* Submit Button */}
       <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>

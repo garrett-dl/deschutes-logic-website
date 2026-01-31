@@ -127,7 +127,7 @@ export function ProcessSection() {
             <div className="relative">
               {/* Connecting line */}
               <div
-                className="absolute bottom-0 left-10 top-0 w-0.5"
+                className="absolute bottom-6 left-10 top-6 w-0.5"
                 style={{
                   background: `linear-gradient(to bottom, var(--primary), ${midGradientColor}, var(--accent))`,
                 }}
@@ -138,7 +138,7 @@ export function ProcessSection() {
                 {steps.map((step, index) => {
                   const colors = getStepColors(index);
                   return (
-                    <div key={step.number} className="relative flex gap-6">
+                    <div key={step.number} className="relative flex gap-6 items-center">
                       {/* Step indicator */}
                       <div
                         className={cn(
